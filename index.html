@@ -32,8 +32,8 @@
     }
 
     h2 {
-      font-size: 28px;
-      margin-top: 20px;
+      font-size: 26px;
+      margin: 0;
     }
 
     .module {
@@ -42,6 +42,11 @@
       padding: 24px;
       margin-top: 20px;
       cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .module.active {
+      border: 1px solid #ff6a00;
     }
 
     .content {
@@ -71,10 +76,12 @@
     textarea {
       width: 100%;
       margin-top: 10px;
-      padding: 10px;
+      padding: 12px;
       border-radius: 8px;
       border: none;
       font-family: 'DM Sans';
+      resize: none;
+      outline: none;
     }
 
     button {
@@ -92,6 +99,21 @@
       font-size: 14px;
       color: #00ffae;
     }
+
+    .progress {
+      margin-top: 30px;
+      background: #222;
+      border-radius: 10px;
+      overflow: hidden;
+      height: 10px;
+    }
+
+    .progress-bar {
+      height: 10px;
+      background: #ff6a00;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
   </style>
 </head>
 
@@ -100,84 +122,110 @@
 <div class="container">
 
   <h1>📊 Copilot en Excel para Compras</h1>
-  <p>Haz clic en cada módulo y practica en tiempo real.</p>
+  <p>Curso interactivo — practica, ejecuta y aprende en tiempo real.</p>
 
-  <!-- Módulo -->
-  <div class="module" onclick="toggle(this)">
+  <!-- MÓDULOS -->
+
+  <div class="module" onclick="toggle(this, event)">
     <span class="badge">Módulo 1</span>
     <h2>Fundamentos</h2>
     <div class="content">
-      <p>Copilot interpreta datos y responde en lenguaje natural. La clave es cómo le pides las cosas.</p>
+      <p>Copilot responde según cómo le pides. Usa lenguaje claro y directo.</p>
       <div class="prompt">Ejemplo: Analiza esta tabla y dame un resumen</div>
 
-      <textarea placeholder="Escribe tu prompt..."></textarea>
-      <button onclick="simulate(event)">Ejecutar</button>
+      <textarea onclick="event.stopPropagation()" placeholder="Escribe tu prompt..."></textarea>
+      <button onclick="simulate(event); event.stopPropagation();">Ejecutar</button>
       <div class="result"></div>
     </div>
   </div>
 
-  <!-- Módulo -->
-  <div class="module" onclick="toggle(this)">
+  <div class="module" onclick="toggle(this, event)">
     <span class="badge">Módulo 2</span>
-    <h2>Análisis de Proveedores</h2>
+    <h2>Proveedores</h2>
     <div class="content">
-      <p>Usa Copilot para comparar precios y detectar el mejor proveedor.</p>
-      <div class="prompt">Ejemplo: Compara estos proveedores y dime cuál es mejor</div>
+      <p>Compara proveedores automáticamente y detecta el mejor.</p>
+      <div class="prompt">Ejemplo: ¿Cuál proveedor es más rentable?</div>
 
-      <textarea placeholder="Prueba tu análisis..."></textarea>
-      <button onclick="simulate(event)">Ejecutar</button>
+      <textarea onclick="event.stopPropagation()" placeholder="Escribe tu análisis..."></textarea>
+      <button onclick="simulate(event); event.stopPropagation();">Ejecutar</button>
       <div class="result"></div>
     </div>
   </div>
 
-  <!-- Módulo -->
-  <div class="module" onclick="toggle(this)">
+  <div class="module" onclick="toggle(this, event)">
     <span class="badge">Módulo 3</span>
-    <h2>Control de Costos</h2>
+    <h2>Costos</h2>
     <div class="content">
-      <p>Detecta aumentos y oportunidades de ahorro automáticamente.</p>
-      <div class="prompt">Ejemplo: Señala aumentos de precio</div>
+      <p>Identifica aumentos y oportunidades de ahorro.</p>
+      <div class="prompt">Ejemplo: Detecta aumentos de precio</div>
 
-      <textarea placeholder="Escribe tu análisis..."></textarea>
-      <button onclick="simulate(event)">Ejecutar</button>
+      <textarea onclick="event.stopPropagation()" placeholder="Escribe tu análisis..."></textarea>
+      <button onclick="simulate(event); event.stopPropagation();">Ejecutar</button>
       <div class="result"></div>
     </div>
   </div>
 
-  <!-- Módulo -->
-  <div class="module" onclick="toggle(this)">
+  <div class="module" onclick="toggle(this, event)">
     <span class="badge">Módulo 4</span>
     <h2>Gastos</h2>
     <div class="content">
-      <p>Identifica en qué estás gastando más.</p>
+      <p>Detecta en qué estás gastando más.</p>
       <div class="prompt">Ejemplo: ¿Dónde gastamos más?</div>
 
-      <textarea placeholder="Escribe tu consulta..."></textarea>
-      <button onclick="simulate(event)">Ejecutar</button>
+      <textarea onclick="event.stopPropagation()" placeholder="Escribe tu consulta..."></textarea>
+      <button onclick="simulate(event); event.stopPropagation();">Ejecutar</button>
       <div class="result"></div>
     </div>
+  </div>
+
+  <!-- PROGRESO -->
+  <div class="progress">
+    <div class="progress-bar" id="progressBar"></div>
   </div>
 
 </div>
 
 <script>
-function toggle(el) {
+let completed = 0;
+
+function toggle(el, event) {
+  if (event.target.tagName === 'TEXTAREA' || event.target.tagName === 'BUTTON') return;
+
+  const modules = document.querySelectorAll('.module');
+  modules.forEach(m => {
+    if (m !== el) {
+      m.classList.remove('active');
+      m.querySelector('.content').style.display = 'none';
+    }
+  });
+
   const content = el.querySelector('.content');
-  content.style.display = content.style.display === 'block' ? 'none' : 'block';
+  const isOpen = content.style.display === 'block';
+
+  content.style.display = isOpen ? 'none' : 'block';
+  el.classList.toggle('active', !isOpen);
 }
 
 function simulate(event) {
-  event.stopPropagation();
   const parent = event.target.parentElement;
   const input = parent.querySelector('textarea').value;
   const result = parent.querySelector('.result');
 
   if (!input.trim()) {
-    result.innerText = "Escribe algo primero...";
+    result.innerText = "Escribe un prompt primero...";
     return;
   }
 
-  result.innerText = "✔ Copilot analizaría esto y te daría insights automáticos.";
+  result.innerText = "✔ Copilot generaría insights, análisis y recomendaciones automáticamente.";
+
+  completed++;
+  updateProgress();
+}
+
+function updateProgress() {
+  const total = document.querySelectorAll('.module').length;
+  const percent = Math.min((completed / total) * 100, 100);
+  document.getElementById('progressBar').style.width = percent + "%";
 }
 </script>
 
