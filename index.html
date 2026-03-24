@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Curso: Copilot en Excel para Compras</title>
+
+  <!-- Tipografías -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'DM Sans', sans-serif;
+      background: #0e0e0e;
+      color: #ffffff;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    h1, h2 {
+      font-family: 'Syne', sans-serif;
+    }
+
+    h1 {
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 28px;
+      margin-top: 20px;
+    }
+
+    .module {
+      background: #161616;
+      border-radius: 16px;
+      padding: 24px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+
+    .content {
+      display: none;
+      margin-top: 15px;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .prompt {
+      background: #222;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #ff6a00;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    textarea {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      font-family: 'DM Sans';
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 16px;
+      background: #ff6a00;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .result {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #00ffae;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>📊 Copilot en Excel para Compras</h1>
+  <p>Haz clic en cada módulo y practica en tiempo real.</p>
+
+  <!-- Módulo -->
+  <div class="module" onclick="toggle(this)">
+    <span class="badge">Módulo 1</span>
+    <h2>Fundamentos</h2>
+    <div class="content">
+      <p>Copilot interpreta datos y responde en lenguaje natural. La clave es cómo le pides las cosas.</p>
+      <div class="prompt">Ejemplo: Analiza esta tabla y dame un resumen</div>
+
+      <textarea placeholder="Escribe tu prompt..."></textarea>
+      <button onclick="simulate(event)">Ejecutar</button>
+      <div class="result"></div>
+    </div>
+  </div>
+
+  <!-- Módulo -->
+  <div class="module" onclick="toggle(this)">
+    <span class="badge">Módulo 2</span>
+    <h2>Análisis de Proveedores</h2>
+    <div class="content">
+      <p>Usa Copilot para comparar precios y detectar el mejor proveedor.</p>
+      <div class="prompt">Ejemplo: Compara estos proveedores y dime cuál es mejor</div>
+
+      <textarea placeholder="Prueba tu análisis..."></textarea>
+      <button onclick="simulate(event)">Ejecutar</button>
+      <div class="result"></div>
+    </div>
+  </div>
+
+  <!-- Módulo -->
+  <div class="module" onclick="toggle(this)">
+    <span class="badge">Módulo 3</span>
+    <h2>Control de Costos</h2>
+    <div class="content">
+      <p>Detecta aumentos y oportunidades de ahorro automáticamente.</p>
+      <div class="prompt">Ejemplo: Señala aumentos de precio</div>
+
+      <textarea placeholder="Escribe tu análisis..."></textarea>
+      <button onclick="simulate(event)">Ejecutar</button>
+      <div class="result"></div>
+    </div>
+  </div>
+
+  <!-- Módulo -->
+  <div class="module" onclick="toggle(this)">
+    <span class="badge">Módulo 4</span>
+    <h2>Gastos</h2>
+    <div class="content">
+      <p>Identifica en qué estás gastando más.</p>
+      <div class="prompt">Ejemplo: ¿Dónde gastamos más?</div>
+
+      <textarea placeholder="Escribe tu consulta..."></textarea>
+      <button onclick="simulate(event)">Ejecutar</button>
+      <div class="result"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function toggle(el) {
+  const content = el.querySelector('.content');
+  content.style.display = content.style.display === 'block' ? 'none' : 'block';
+}
+
+function simulate(event) {
+  event.stopPropagation();
+  const parent = event.target.parentElement;
+  const input = parent.querySelector('textarea').value;
+  const result = parent.querySelector('.result');
+
+  if (!input.trim()) {
+    result.innerText = "Escribe algo primero...";
+    return;
+  }
+
+  result.innerText = "✔ Copilot analizaría esto y te daría insights automáticos.";
+}
+</script>
+
+</body>
+</html>
